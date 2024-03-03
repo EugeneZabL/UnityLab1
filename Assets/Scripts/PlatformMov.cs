@@ -4,27 +4,16 @@ using UnityEngine;
 
 public class PlatformMov : MonoBehaviour
 {
+    public AudioClip jumpSound;
     public float impulseForce = 5f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Получаем компонент Rigidbody объекта, который столкнулся с платформой
         Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
 
         Vector3 impulseDirection = Vector3.up;
-        rb.AddForce(impulseDirection * impulseForce, ForceMode.Impulse); 
+        rb.AddForce(impulseDirection * impulseForce, ForceMode.Impulse);
 
-
+        AudioSource.PlayClipAtPoint(jumpSound, transform.position);
     }
 }

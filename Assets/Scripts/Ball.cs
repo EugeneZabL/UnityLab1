@@ -4,17 +4,36 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField] AudioClip ForJump;
-    [SerializeField] AudioClip ForDie;
-    // Start is called before the first frame update
-    private void OnCollisionEnter(Collision collision)
+    public bool Key = false;
+
+    [Range(1f, 5f)]
+    public float speed;
+
+    public float ipulseForce = 1f;
+
+    Rigidbody player;
+
+    void Start()
     {
-        AudioSource.PlayClipAtPoint(ForJump,transform.position);
+        player = GetComponent<Rigidbody>();
     }
 
-    private void OnDisable()
+    // Update is called once per frame
+    void Update()
     {
-        AudioSource.PlayClipAtPoint(ForDie, transform.position);
+        if(Input.GetKeyUp(KeyCode.W))
+        {
+            player.AddForce(new Vector3(0, 0, -1) * ipulseForce, ForceMode.Impulse);
+        }
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            player.AddForce(new Vector3(0, 0, 1) * ipulseForce, ForceMode.Impulse);
+        }
+
+        float horizontal = Input.GetAxis("Horizontal")*-1;
+
+        player.velocity = new Vector3(horizontal * speed, player.velocity.y, player.velocity.z);
     }
+
 
 }
